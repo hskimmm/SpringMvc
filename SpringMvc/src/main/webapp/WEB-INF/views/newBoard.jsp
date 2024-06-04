@@ -12,13 +12,15 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div class="container">
-  		<h2>Spring MVC</h2>
-	  	<div class="panel panel-default">
-	    	<div class="panel-heading">BOARD</div>
-	    	<div class="panel-body">Panel Content</div>
-	    	<div class="panel-footer">게시판연습</div>
-	  	</div>
-	</div>
+ 
+<div class="container">
+  <h2>Spring MVC</h2>
+  <div class="panel panel-default">
+    <div class="panel-heading">BOARD</div>
+    <div class="panel-body">Panel Content</div>
+    <div class="panel-footer">게시판연습</div>
+  </div>
+</div>
+
 </body>
 </html>
