@@ -3,10 +3,49 @@
 <mapper namespace="kr.spring.mapper.BoardMapper"> 
 <!-- Mapper 클래스의 패키지명과 파일명을 입력하여 서로 연결  -->
 
+	<!-- 게시판목록 -->
 	<select id="getList" resultType="kr.spring.entity.Board">
 		<!-- resultType
 			해당 쿼리의 실행문의 반환값을 지정한다.(여기서는 Board 클래스로 지정)
 		 -->
-		select * from myboard;
+		SELECT * FROM myboard;
 	</select>
+	
+	<!-- 게시판추가 -->
+	<insert id="boardInsert" parameterType="kr.spring.entity.Board">
+		<!-- 
+			parameterType
+			데이터가 담겨져 mapper로 넘어온 형태를 뜻함.
+		 -->
+		INSERT INTO myboard
+		(
+			title,
+			content,
+			writer
+		)
+		VALUES
+		(
+			#{title},
+			#{content},
+			#{writer}
+		)
+	</insert>
+	
+	<!-- 게시판상세 -->
+	<select id="boardDetail" parameterType="int" resultType="kr.spring.entity.Board">
+		SELECT * FROM myboard WHERE idx = #{idx}
+	</select>
+	
+	<!-- 게시판수정 -->
+	<update id="boardUpdate" parameterType="kr.spring.entity.Board">
+		UPDATE myboard SET
+		title = #{title},
+		content = #{content}
+		where idx = #{idx}
+	</update>
+	
+	<!-- 게시판삭제 -->
+	<delete id="boardDelete" parameterType="int">
+		DELETE FROM myboard WHERE idx = #{idx}
+	</delete>
 </mapper>

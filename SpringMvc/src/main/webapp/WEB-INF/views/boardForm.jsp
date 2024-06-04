@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <title>게시판리스트</title>
+  <title>게시판</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -13,29 +13,32 @@
 <body>
  
 <div class="container">
-  <h2>게시판리스트</h2>
+  <h2>게시판추가</h2>
   <div class="panel panel-default">
     <div class="panel-heading">BOARD</div>
     <div class="panel-body">
-    	<table class="table table-bordered table-hover">
-    		<tr>
-    			<td>번호</td>
-    			<td>제목</td>
-    			<td>작성자</td>
-    			<td>작성일</td>
-    			<td>조회수</td>
-    		<tr>
-    		<c:forEach var="list" items="${boardList}">
-    			<tr>
-    				<td>${list.idx}</td>
-    				<td><a href="boardDetail.do?idx=${list.idx}">${list.title}</a></td>
-    				<td>${list.writer}</td>
-    				<td>${list.indate}</td>
-    				<td>${list.count}</td>
-    			</tr>
-    		</c:forEach>
-    	</table>
-    	<a href="boardForm.do" class="btn btn-primary btn-sm">글쓰기</a>
+    	<form action="boardInsert.do" method="post">
+	    	<table class="table">
+	    		<tr>
+	    			<td>제목</td>
+	    			<td><input type="text" name="title" class="form-control"></td>
+	    		</tr>
+	    		<tr>
+	    			<td>내용</td>
+	    			<td><textarea rows="7" class="form-control" name="content"></textarea></td>
+	    		</tr>
+	    		<tr>
+	    			<td>작성자</td>
+	    			<td><input type="text" class="form-control" name="writer"></td>
+	    		</tr>
+	    		<tr>
+	    			<td colspan="2" align="center">
+	    				<button type="submit" class="btn btn-success btn-sm">등록</button>
+	    				<button type="reset" class="btn btn-warning btn-sm">취소</button>
+	    			</td>
+	    		</tr>
+	    	</table>
+    	</form>
     </div>
     <div class="panel-footer">게시판연습</div>
   </div>
