@@ -21,4 +21,21 @@
 	  	</div>
 	</div>
 </body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		// 페이지 로딩 시 바로 실행 되는 함수
+	});
+	
+	/* ajax 기본 포맷 */
+	$.ajax({
+		url : "", //Controller 매핑 주소
+		type : "", //요청방식
+		data : {/* 서버로 전송할 데이터 */},
+		dataType : "", //서버로부터 응답 받는 데이터 타입
+		success : function(/* 서버로부터 받은 리턴 데이터 */),//ajax 성공시
+		error : function(/* 오류정보 */){ //ajax 실패시
+			
+		}
+	});
+</script>
 </html>

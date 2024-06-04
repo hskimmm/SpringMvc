@@ -7,4 +7,25 @@
 		SELECT idx, title, content, writer, date(indate) AS indate, count 
 		FROM myboard;
 	</select>
+	
+	<!-- 게시판글쓰기 -->
+	<insert id="newBoardInsert" parameterType="kr.spring.entity.Board">
+		INSERT INTO myboard
+		(
+			title,
+			content,
+			writer
+		)
+		VALUES
+		(
+			#{title},
+			#{content},
+			#{writer}
+		)
+	</insert>
+	
+	<!-- 게시판삭제 -->
+	<delete id="newBoardDelete" parameterType="int">
+		DELETE FROM myboard WHERE idx = #{idx}
+	</delete>
 </mapper>

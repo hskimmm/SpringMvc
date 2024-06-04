@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.spring.entity.Board;
@@ -29,5 +30,17 @@ public class NewBoardController {
 		List<Board> newBoardList = newBoardMapper.getNewBoardList();
 		
 		return newBoardList; // 객체를 리턴 -> json 데이터 형식으로 변환해서 리턴한다는 뜻
+	}
+	
+	//게시판작성
+	@RequestMapping("/newBoardInsert.do")
+	public @ResponseBody void newBoardInsert(Board vo) {		
+		newBoardMapper.newBoardInsert(vo);
+	}
+	
+	//게시판삭제
+	@RequestMapping("/newBoardDelete.do")
+	public @ResponseBody void newBoardDelete(@RequestParam int idx) {
+		newBoardMapper.newBoardDelete(idx);
 	}
 }

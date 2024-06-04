@@ -9,5 +9,7 @@ import kr.spring.entity.Board;
 @Mapper
 public interface NewBoardMapper {
 	public List<Board> getNewBoardList();
+	public void newBoardInsert(Board vo);
+	public void newBoardDelete(int idx);
 
 }
