@@ -55,6 +55,9 @@ public class BoardController {
 		Board vo = boardMapper.boardDetail(idx);
 		model.addAttribute("list", vo);
 		
+		// 조회수 증가(상세 페이지 진입시 count + 1)
+		boardMapper.boardCount(idx);
+		
 		return "boardDetail";
 	}
 	

@@ -8,7 +8,8 @@
 		<!-- resultType
 			해당 쿼리의 실행문의 반환값을 지정한다.(여기서는 Board 클래스로 지정)
 		 -->
-		SELECT * FROM myboard;
+		SELECT idx, title, content, writer, date(indate) AS indate, count 
+		FROM myboard;
 	</select>
 	
 	<!-- 게시판추가 -->
@@ -33,7 +34,9 @@
 	
 	<!-- 게시판상세 -->
 	<select id="boardDetail" parameterType="int" resultType="kr.spring.entity.Board">
-		SELECT * FROM myboard WHERE idx = #{idx}
+		SELECT idx, title, content, writer, date(indate) AS indate, count 
+		FROM myboard 
+		WHERE idx = #{idx}
 	</select>
 	
 	<!-- 게시판수정 -->
@@ -48,4 +51,11 @@
 	<delete id="boardDelete" parameterType="int">
 		DELETE FROM myboard WHERE idx = #{idx}
 	</delete>
+	
+	<!-- 조회수 증가 -->
+	<update id="boardCount" parameterType="int">
+		UPDATE myboard SET
+		count = count+1
+		WHERE idx = #{idx}
+	</update>
 </mapper>

@@ -34,7 +34,7 @@
     		</tr>
     		<tr>
     			<td>작성일</td>
-    			<td>${fn:split(list.indate, " ")[0]}</td> <!-- 굳이? 데이터 넣을 때 알맞게 넣으면 됨 -->
+    			<td>${list.indate}</td> <!-- 굳이? 데이터 넣을 때 알맞게 넣으면 됨 -->
     		</tr>
     		<tr>
     			<td colspan="2" align="center">
