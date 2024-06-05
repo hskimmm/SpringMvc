@@ -32,15 +32,36 @@ public class NewBoardController {
 		return newBoardList; // 객체를 리턴 -> json 데이터 형식으로 변환해서 리턴한다는 뜻
 	}
 	
+	//게시판상세
+	@RequestMapping("/newBoardDetail.do")
+	public @ResponseBody Board newBoardDetail(@RequestParam int idx){
+		Board content = newBoardMapper.getNewBoardDetail(idx);
+		return content;
+	}
+	
 	//게시판작성
 	@RequestMapping("/newBoardInsert.do")
 	public @ResponseBody void newBoardInsert(Board vo) {		
 		newBoardMapper.newBoardInsert(vo);
 	}
 	
+	//게시판수정
+	@RequestMapping("/newBoardUpdate.do")
+	public @ResponseBody void newBoardUpdate(Board vo) {
+		newBoardMapper.newBoardUpdate(vo);
+	}
+	
 	//게시판삭제
 	@RequestMapping("/newBoardDelete.do")
 	public @ResponseBody void newBoardDelete(@RequestParam int idx) {
 		newBoardMapper.newBoardDelete(idx);
+	}
+	
+	//게시판조회수
+	@RequestMapping("/newBoardCount.do")
+	public @ResponseBody Board newBoardCount(@RequestParam int idx) {
+		newBoardMapper.newBoardCount(idx); //게시판 조회수 증가
+		Board newBoardList = newBoardMapper.getNewBoardDetail(idx); //조회수 업데이트 된 게시판 가져오기
+		return newBoardList;
 	}
 }

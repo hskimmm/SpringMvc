@@ -8,6 +8,13 @@
 		FROM myboard;
 	</select>
 	
+	<!-- 게시판상세 -->
+	<select id="getNewBoardDetail" parameterType="int" resultType="kr.spring.entity.Board">
+		SELECT content, count
+		FROM myboard
+		WHERE idx = #{idx}
+	</select>
+	
 	<!-- 게시판글쓰기 -->
 	<insert id="newBoardInsert" parameterType="kr.spring.entity.Board">
 		INSERT INTO myboard
@@ -24,8 +31,23 @@
 		)
 	</insert>
 	
+	<!-- 게시판수정 -->
+	<update id="newBoardUpdate" parameterType="kr.spring.entity.Board">
+		UPDATE myboard SET
+		title = #{title},
+		content = #{content}
+		WHERE idx = #{idx}
+	</update>
+	
 	<!-- 게시판삭제 -->
 	<delete id="newBoardDelete" parameterType="int">
 		DELETE FROM myboard WHERE idx = #{idx}
 	</delete>
+	
+	<!-- 조회수 증가 -->
+	<update id="newBoardCount" parameterType="int">
+		UPDATE myboard SET
+		count = count + 1
+		WHERE idx = #{idx}
+	</update>
 </mapper>

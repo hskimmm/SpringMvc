@@ -91,20 +91,21 @@
 			//게시판 리스트
 			boardListHtml += "<tr>";
 			boardListHtml += "<td>" + obj.idx + "</td>";
-			boardListHtml += "<td><a href='javascript:goNewBoardDetail("+obj.idx+")'>" + obj.title + "</a></td>";
+			boardListHtml += "<td id='t"+obj.idx+"'><a href='javascript:goNewBoardDetail("+obj.idx+")'>" + obj.title + "</a></td>";
 			boardListHtml += "<td>" + obj.writer + "</td>";
 			boardListHtml += "<td>" + obj.indate + "</td>";
-			boardListHtml += "<td>" + obj.count + "</td>";
+			boardListHtml += "<td id='newBoardCount"+obj.idx+"'>" + obj.count + "</td>";
 			boardListHtml += "</tr>";
 			
 			//게시판 상세
 			boardListHtml += "<tr class='detail-tr' id='newBoardContentView"+obj.idx+"'>";
 			boardListHtml += "<td>내용</td>";
 			boardListHtml += "<td colspan='4'>";
-			boardListHtml += "<textarea rows='7' class='form-control' readonly>" + obj.content + "</textarea>";
+			boardListHtml += "<textarea rows='7' class='form-control' id='ta"+obj.idx+"' readonly></textarea>";
 			boardListHtml += "<br/>";
-			boardListHtml += "<button class='btn btn-success btn-sm'>수정</button>&nbsp";
-			boardListHtml += "<button class='btn btn-warning btn-sm' onclick='goNewBoardDelete("+obj.idx+")'>삭제</button>";
+			boardListHtml += "<span id='updateBtn"+obj.idx+"'><button class='btn btn-success btn-sm' onclick='goNewBoardUpdateForm("+obj.idx+")'>수정화면</button></span>&nbsp";
+			boardListHtml += "<button class='btn btn-warning btn-sm' onclick='goNewBoardDelete("+obj.idx+")'>삭제</button>&nbsp";
+			boardListHtml += "<button class='btn btn-info btn-sm' onclick='loadNewBoardList()'>목록</button";
 			boardListHtml += "</td>";
 			boardListHtml += "</tr>";
 		});
@@ -162,11 +163,68 @@
 	function goNewBoardDetail(idx){
 		//특정 게시판 내용 노출 유무
 		if($("#newBoardContentView"+idx).css("display") == "none"){
+			//게시판 내용을 서버로부터 가져오기
+			$.ajax({
+				url : "newBoardDetail.do",
+				type : "get",
+				data : {"idx":idx},
+				dataType : "json",
+				success : function(data){
+					$("#ta"+idx).val(data.content);
+					
+					//조회수 증가
+					$.ajax({
+						url : "newBoardCount.do",
+						type : "get",
+						data : {"idx" : idx},
+						dataType : "json",
+						success : function(data){
+							$("#newBoardCount"+idx).text(data.count);
+						},
+						error : function(){
+							alert("error");
+						}
+					});
+				},
+				error : function(){
+					alert("error");
+				}
+			});
+			
 			$("#newBoardContentView"+idx).css("display", "table-row"); // 특정 게시판의 내용 보이기
+			$("#ta"+idx).attr("readonly", true); // 다시 클릭시 readonly 적용
 		}else{
 			$("#newBoardContentView"+idx).css("display", "none"); // 특정 게시판의 내용 숨기기
 		}
 		
+	}
+	
+	//게시판수정폼이동
+	function goNewBoardUpdateForm(idx){
+		$("#ta"+idx).attr("readonly", false);
+		let title = $("#t"+idx).text(); // 제목 값 가져오기
+		
+		let newInput = "<input type='text' class='form-control' id='updateTitle"+idx+"' value='"+title+"'/>"; //input 새로 만들어서 기존 제목 값 넣어줌
+		$("#t"+idx).html(newInput); // 기존 제목 a태그를 지우고 위에 만든 input 태그를 추가
+		
+		let newButton = "<button class='btn btn-info btn-sm' onclick='goNewBoardUpdate("+idx+")'>수정</button>" //수정화면 버튼을 수정 버튼으로 변경
+		$("#updateBtn"+idx).html(newButton);
+	}
+	
+	//게시판수정
+	function goNewBoardUpdate(idx){
+		let title = $("#updateTitle"+idx).val();
+		let content = $("#ta"+idx).val();
+		
+		$.ajax({
+			url : "newBoardUpdate.do",
+			type : "post",
+			data : {"title": title, "content" : content, "idx" : idx},
+			success : loadNewBoardList,
+			error : function(){
+				alert("error");
+			}
+		});
 	}
 	
 	//게시판삭제
@@ -181,6 +239,12 @@
 			}
 		});
 	}
+	
+	/* 
+		하나의 Jsp로 게시판 CRUD를 해봤는데 게시판의 특정 idx를 "+obj.idx+" 로 코드에 넣어서 사용하는게
+		코드가 복잡해지고 다른사람이 볼때 이해를 못할것 같다.
+		페이지를 더 만들더라도 컨트롤러를 통해 가져오는게 더 코드가 깔끔하고 이해하기 쉬울꺼 같음.
+	*/
 
 </script>
 </html>
