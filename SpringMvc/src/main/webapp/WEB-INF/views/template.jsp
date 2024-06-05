@@ -30,6 +30,7 @@
 	$.ajax({
 		url : "", //Controller 매핑 주소
 		type : "", //요청방식
+		contentType : "application/json;charset=utf-8", //data의 타입을 설정(JSON으로 서버로 넘기겠다는 뜻)
 		data : {/* 서버로 전송할 데이터 */},
 		dataType : "", //서버로부터 응답 받는 데이터 타입
 		success : function(/* 서버로부터 받은 리턴 데이터 */),//ajax 성공시

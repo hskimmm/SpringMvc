@@ -63,7 +63,7 @@
 	//게시판리스트 불러오기
 	function loadNewBoardList(){
 		$.ajax({
-			url : "newBoardList.do", //Controller 매핑 주소
+			url : "board/all", //Controller 매핑 주소
 			type : "get", //요청방식
 			dataType : "json", //서버로부터 응답 받는 데이터 타입
 			success : makeNewBoardListView,//ajax 성공시
@@ -144,7 +144,7 @@
 		
 		//서버로 입력 받은 데이터를 넘김
 		$.ajax({
-			url : "newBoardInsert.do",
+			url : "board/new",
 			type : "post",
 			data : formData,
 			success : function(){
@@ -165,18 +165,16 @@
 		if($("#newBoardContentView"+idx).css("display") == "none"){
 			//게시판 내용을 서버로부터 가져오기
 			$.ajax({
-				url : "newBoardDetail.do",
+				url : "board/"+idx,
 				type : "get",
-				data : {"idx":idx},
 				dataType : "json",
 				success : function(data){
 					$("#ta"+idx).val(data.content);
 					
 					//조회수 증가
 					$.ajax({
-						url : "newBoardCount.do",
-						type : "get",
-						data : {"idx" : idx},
+						url : "board/count/"+idx,
+						type : "put",
 						dataType : "json",
 						success : function(data){
 							$("#newBoardCount"+idx).text(data.count);
@@ -217,9 +215,10 @@
 		let content = $("#ta"+idx).val();
 		
 		$.ajax({
-			url : "newBoardUpdate.do",
-			type : "post",
-			data : {"title": title, "content" : content, "idx" : idx},
+			url : "board/update",
+			type : "put",
+			contentType : "application/json;charset=utf-8", //data의 타입을 설정(JSON으로 서버로 넘기겠다는 뜻)
+			data : JSON.stringify({"title": title, "content" : content, "idx" : idx}), //JSON.stringify(데이터) -> 데이터가 JSON 형태로 변환됨
 			success : loadNewBoardList,
 			error : function(){
 				alert("error");
@@ -230,9 +229,8 @@
 	//게시판삭제
 	function goNewBoardDelete(idx){
 		$.ajax({
-			url : "newBoardDelete.do",
-			type : "get",
-			data : {"idx":idx},
+			url : "board/"+idx,
+			type : "delete",
 			success : loadNewBoardList,
 			error : function(){
 				alert("error");
