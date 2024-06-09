@@ -12,15 +12,14 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<jsp:include page="../common/header.jsp"/>
 <div class="container">
+	<jsp:include page="../common/header.jsp"/>
 	<h2>Panel Heading</h2>
 	<div class="panel panel-default">
-	  <div class="panel-heading">Panel Heading</div>
-	  <div class="panel-body">Panel Content</div>
-	  <div class="panel-footer">Panel Footer</div>
+	<div class="panel-heading">Panel Heading</div>
+	<div class="panel-body">Panel Content</div>
+	<div class="panel-footer">Panel Footer</div>
 	</div>
 </div>
-
 </body>
 </html>

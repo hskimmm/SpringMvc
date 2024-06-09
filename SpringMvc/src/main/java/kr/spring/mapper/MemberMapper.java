@@ -8,4 +8,5 @@ import kr.spring.entity.Member;
 public interface MemberMapper {
 	public int memberRegisterCheck(String memberId);
 	public int memRegister(Member member);
+	public Member memberLogin(Member member);
 }

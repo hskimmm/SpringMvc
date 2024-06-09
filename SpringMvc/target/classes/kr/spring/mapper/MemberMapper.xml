@@ -30,4 +30,12 @@
 			#{memProfile}
 		)
 	</insert>
+	
+	<!-- 로그인 처리 -->
+	<select id="memberLogin" parameterType="kr.spring.entity.Member" resultType="kr.spring.entity.Member">
+		select * 
+		from member 
+		where memberId = #{memId} 
+		and memPassword = #{memPassword}
+	</select>
 </mapper>
