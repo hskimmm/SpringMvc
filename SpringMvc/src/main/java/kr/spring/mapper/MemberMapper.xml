@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.spring.mapper.MemberMapper">
+	
+	<!-- 아이디 중복체크 -->
+	<select id="memberRegisterCheck" resultType="int" parameterType="String">
+		select count(*) as cnt from member where memberId = #{memberId}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="memRegister" parameterType="kr.spring.entity.Member">
+		insert into member
+		(
+			memberId,
+			memPassword,
+			memName,
+			memAge,
+			memGender,
+			memEmail,
+			memProfile
+		)
+		values
+		(
+			#{memId},
+			#{memPassword},
+			#{memName},
+			#{memAge},
+			#{memGender},
+			#{memEmail},
+			#{memProfile}
+		)
+	</insert>
+</mapper>

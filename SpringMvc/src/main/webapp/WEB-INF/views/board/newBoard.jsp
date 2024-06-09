@@ -22,7 +22,8 @@
 </head>
 <body>
 	<div class="container">
-  		<h2>Spring MVC</h2>
+	<jsp:include page="../common/header.jsp"/>
+  		<h2>게시판</h2>
 	  	<div class="panel panel-default">
 	    	<div class="panel-heading">BOARD</div>
 	    	<div class="panel-body" id="newBoardListView"></div>
