@@ -20,11 +20,30 @@ public class MemberController {
 	MemberMapper memberMapper;
 	
 	
+	/**
+	 * @apiNote 회원가입 페이지로 이동한다.
+	 * @author hskim
+	 * @since 2024-06-10
+	 * @return
+	 */
 	@RequestMapping("/memJoinForm.do")
 	public String memJoin() {
 		return "member/memberJoinForm";
 	}
 	
+	
+	/**
+	 * @apiNote 회원가입
+	 * @author hskim
+	 * @since 2024-06-10
+	 * @param member
+	 * @param memPwd
+	 * @param memPwdOk
+	 * @param redirect
+	 * @param session
+	 * @return
+	 * @throws NullPointException
+	 */
 	@RequestMapping("/memRegister.do")
 	public String memRegister(Member member, String memPwd, String memPwdOk, RedirectAttributes redirect, HttpSession session) {
 		//유효성체크
@@ -69,6 +88,15 @@ public class MemberController {
 		}
 	}
 	
+	
+	/**
+	 * @apiNote DB에 중복된 아이디가 있는지 확인한다.
+	 * @author hskim
+	 * @since 2024-06-10
+	 * @param memberId
+	 * @return
+	 * @throws NullPointException
+	 */
 	@RequestMapping("/memberRegisterCheck.do")
 	public @ResponseBody int memberRegisterCheck(@RequestParam String memberId) {
 		int memeberIdCheck = memberMapper.memberRegisterCheck(memberId);

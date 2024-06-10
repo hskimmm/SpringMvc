@@ -16,13 +16,29 @@ public class LoginController {
 	@Autowired
 	MemberMapper memberMapper;
 
-	//로그인폼 이동
+	
+	/**
+	 * @apiNote 로그인 페이지로 이동한다.
+	 * @author hskim
+	 * @since 2024-06-10
+	 * @return
+	 */
 	@RequestMapping("/memberLoginForm.do")
 	public String memberLoginForm() {
 		return "login/loginForm";
 	}
 	
-	//로그인
+	
+	/**
+	 * @apiNote 사용자 로그인을 처리한다.
+	 * @author hskim
+	 * @since 2024-06-10
+	 * @param member
+	 * @param redirect
+	 * @param session
+	 * @return
+	 * @throws NullPointException
+	 */
 	@RequestMapping("/memberLogin.do")
 	public String memberLogin(Member member, RedirectAttributes redirect, HttpSession session) {
 		
@@ -52,7 +68,14 @@ public class LoginController {
 		}
 	}
 	
-	//로그아웃
+	
+	/**
+	 * @apiNote 사용자 로그아웃 처리한다.
+	 * @author hskim
+	 * @since 2024-06-10
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/memberLogout.do")
 	public String memberLogout(HttpSession session) {
 		session.invalidate(); //세션 무효화
