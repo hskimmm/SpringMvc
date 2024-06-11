@@ -49,4 +49,18 @@
 			memEmail = #{memEmail}
 		where memId = #{memId}
 	</update>
+	
+	<!-- 특정 유저의 정보 가져오기 -->
+	<select id="getMember" parameterType="String" resultType="kr.spring.entity.Member">
+		select *
+		from member
+		where memId = #{memId}
+	</select>
+	
+	<!-- 프로필 사진 업로드 -->
+	<update id="memberProfileUpdate" parameterType="kr.spring.entity.Member">
+		update member set
+			memProfile = #{memProfile}
+		where memId = #{memId} 
+	</update>
 </mapper>

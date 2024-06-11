@@ -11,9 +11,19 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <style type="text/css">
-  	img {
+  	.index-image-main {
   		width: 100%;
   		height: 400px;
+  	}
+  	
+  	.index-image-basic {
+  		width: 50px;
+  		height: 50px;
+  	}
+  	
+  	.index-image-member {
+  		width: 50px;
+  		height: 50px;
   	}
   </style>
 </head>
@@ -22,15 +32,21 @@
 		<jsp:include page="common/header.jsp"/>  <!-- header.jsp 페이지를 불러온다. -->
 		<c:choose>
 			<c:when test="${!empty member}">
-				<h3>${member.memName}님 방문을 환영합니다.</h3>
+				<h3>
+					<c:if test="${member.memProfile ne null}"><img class="index-image-member" src="resources/upload/${member.memProfile}" alt="유저 이미지"></c:if>
+					${member.memName}님 방문을 환영합니다.
+				</h3>
 			</c:when>
 			<c:otherwise>
-				<h3>로그인X</h3>
+				<h5>
+					<c:if test="${member.memProfile eq null}"><img class="index-image-basic" src="resources/images/urbanbrush-20210105113834473495.jpg" alt="기본 이미지"></c:if>
+					로그인하세요.	
+				</h5>
 			</c:otherwise>	
 		</c:choose>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<img src="resources/images/pngtree-three-puppies-with-their-mouths-open-are-posing-for-a-photo-image_2902292.jpg"/>
+				<img class="index-image-main" src="resources/images/pngtree-three-puppies-with-their-mouths-open-are-posing-for-a-photo-image_2902292.jpg"/>
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-tabs">

@@ -1,5 +1,8 @@
 package kr.spring.controller;
 
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import kr.spring.entity.Member;
 import kr.spring.mapper.MemberMapper;
@@ -181,6 +187,86 @@ public class MemberController {
 			return "redirect:/memberUpdateForm.do";
 		}
 		
+	}
+	
+	
+	/**
+	 * @apiNote 프로필사진등록 페이지로 이동한다.
+	 * @author hskim
+	 * @since 2024-06-11
+	 * @return
+	 */
+	@RequestMapping("/memberProfileForm.do")
+	public String memberProfileForm(){
+		return "member/memberProfileForm";
+	}
+	
+	
+	@RequestMapping("/memberProfileUpdate.do")
+	public String memberProfileUpdate(HttpServletRequest request, RedirectAttributes redirect, HttpSession session) {
+		//2가지 실행 = upload 폴더에 이미지 저장/DB에 저장
+		//파일업로드 API
+		MultipartRequest multipartRequest = null;
+		int fileMaxSize = 10*1024*1024; //파일 최대 사이즈
+		String savePath = request.getRealPath("resources/upload"); // 업로드될 실제 경로
+		
+		try {
+			//upload 폴더에 이미지 업로드
+			multipartRequest = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8", new DefaultFileRenamePolicy());
+		} catch (Exception e) {
+			e.printStackTrace();
+			redirect.addFlashAttribute("messageType", "error");
+			redirect.addFlashAttribute("message", "프로필사진 등록에 실패하였습니다.");
+			
+			return "redirect:/memberProfileForm.do";
+		}
+		
+		//DB 테이블에 유저이미지 업데이트
+		String memId = multipartRequest.getParameter("memId");
+		String newProfile = "";
+		File file = multipartRequest.getFile("memProfile"); //업로드된 파일을 가져와서 file 객체에 넣어줌
+		
+		if(file != null) { //업로드 된 상태
+			// 이미지 파일여부 체크 -> 이미지 파일이 아니면 삭제
+			String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1); //파일의 이름을 가져와서 substring으로 확장자만 가져온다.
+			ext = ext.toUpperCase(); //확장자를 대문자로 변환
+			
+			if(ext.equals("PNG") || ext.equals("GIF") || ext.equals("JPG") || ext.equals("JPEG")) {
+				// 새로 업로드된 이미지, 현재 DB에 있는 이미지
+				String oldProfile = memberMapper.getMember(memId).getMemProfile();
+				File oldFile = new File(savePath + "/" + oldProfile); // 기존 DB에 있던 파일을 찾아서 file 객체에 넣어줌
+				
+				if(oldFile.exists()) { // 기존 DB에 있던 파일이 존재하면
+					oldFile.delete(); // 삭제
+				}
+				
+				newProfile = file.getName(); //업로드된 파일이름 할당
+			} else { //이미지 파일이 아닐 경우 삭제
+				if(file.exists()) { //파일이 있을 경우
+					file.delete(); //파일 삭제
+				}
+				redirect.addFlashAttribute("messageType", "error");
+				redirect.addFlashAttribute("message", "이미지 파일만 업로드 가능합니다.");
+				
+				return "redirect:/memberProfileForm.do";
+			}
+			
+		}
+		
+		//새로운 이미지 파일을 업데이트
+		Member member = new Member();
+		member.setMemId(memId);
+		member.setMemProfile(newProfile);
+		memberMapper.memberProfileUpdate(member);
+		
+		//변경된 이미지의 정보를 포함하여 유저의 정보를 가져와서 세션에 새로 값을 부여
+		Member user = memberMapper.getMember(memId);
+		session.setAttribute("member", user);
+		
+		redirect.addFlashAttribute("messageType", "success");
+		redirect.addFlashAttribute("message", "프로필 이미지 변경에 성공했습니다.");
+		
+		return "redirect:/";
 	}
 	
 }
