@@ -4,14 +4,14 @@
 	
 	<!-- 아이디 중복체크 -->
 	<select id="memberRegisterCheck" resultType="int" parameterType="String">
-		select count(*) as cnt from member where memberId = #{memberId}
+		select count(*) as cnt from member where memId = #{memberId}
 	</select>
 	
 	<!-- 회원가입 -->
 	<insert id="memRegister" parameterType="kr.spring.entity.Member">
 		insert into member
 		(
-			memberId,
+			memId,
 			memPassword,
 			memName,
 			memAge,
@@ -35,7 +35,18 @@
 	<select id="memberLogin" parameterType="kr.spring.entity.Member" resultType="kr.spring.entity.Member">
 		select * 
 		from member 
-		where memberId = #{memId} 
+		where memId = #{memId} 
 		and memPassword = #{memPassword}
 	</select>
+	
+	<!-- 회원정보수정 -->
+	<update id="memberUpdate" parameterType="kr.spring.entity.Member">
+		update member set
+			memPassword = #{memPassword},
+			memName = #{memName},
+			memAge = #{memAge},
+			memGender = #{memGender},
+			memEmail = #{memEmail}
+		where memId = #{memId}
+	</update>
 </mapper>

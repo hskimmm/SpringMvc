@@ -35,7 +35,7 @@
 			<li class="dropdown">
 			  	<a class="dropdown-toggle" data-toggle="dropdown" href="#">회원관리<span class="caret"></span></a>
 			  	<ul class="dropdown-menu">
-			     	<li><a href="#">회원정보수정</a></li>
+			     	<li><a href="memberUpdateForm.do">회원정보수정</a></li>
 			     	<li><a href="#">프로필사진등록</a></li>
 			     	<li><a href="memberLogout.do">로그아웃</a></li>
 			   	</ul>
