@@ -29,6 +29,7 @@
 	    	<div class="panel-body" id="newBoardListView"></div>
 	    	<div class="panel-body insert-body" id="newBoardWriteForm">
 	    		<form id="frm">
+	    			<input type="hidden" name="memId" value="${member.memId}"/>
 			    	<table class="table">
 			    		<tr>
 			    			<td>제목</td>
@@ -40,11 +41,11 @@
 			    		</tr>
 			    		<tr>
 			    			<td>작성자</td>
-			    			<td><input type="text" class="form-control" id="writer"name="writer"></td>
+			    			<td><input type="text" class="form-control" id="writer"name="writer" value="${member.memName}" readonly></td>
 			    		</tr>
 			    		<tr>
 			    			<td colspan="2" align="center">
-			    				<button type="button" class="btn btn-success btn-sm" onclick='goNewBoardInsert()'>등록</button>
+		    					<button type="button" class="btn btn-success btn-sm" onclick='goNewBoardInsert()'>등록</button>
 			    				<button type="reset" class="btn btn-warning btn-sm">취소</button>
 			    				<button type="button" class="btn btn-info btn-sm" onclick='goNewBoardList()'>목록</button>
 			    			</td>
@@ -104,19 +105,23 @@
 			boardListHtml += "<td colspan='4'>";
 			boardListHtml += "<textarea rows='7' class='form-control' id='ta"+obj.idx+"' readonly></textarea>";
 			boardListHtml += "<br/>";
-			boardListHtml += "<span id='updateBtn"+obj.idx+"'><button class='btn btn-success btn-sm' onclick='goNewBoardUpdateForm("+obj.idx+")'>수정화면</button></span>&nbsp";
-			boardListHtml += "<button class='btn btn-warning btn-sm' onclick='goNewBoardDelete("+obj.idx+")'>삭제</button>&nbsp";
+			if("${member.memId}" == obj.memId){
+				boardListHtml += "<span id='updateBtn"+obj.idx+"'><button class='btn btn-success btn-sm' onclick='goNewBoardUpdateForm("+obj.idx+")'>수정화면</button></span>&nbsp";
+				boardListHtml += "<button class='btn btn-warning btn-sm' onclick='goNewBoardDelete("+obj.idx+")'>삭제</button>&nbsp";
+			}
 			boardListHtml += "<button class='btn btn-info btn-sm' onclick='loadNewBoardList()'>목록</button";
 			boardListHtml += "</td>";
 			boardListHtml += "</tr>";
 		});
 		
-		boardListHtml += "<tr>"
-		boardListHtml += "<td colspan='5'>"
-		boardListHtml += "<button class='btn btn-primary btn-sm' onclick='newBoardWriteForm()'>글쓰기</button>"
-		boardListHtml += "</td>"
-		boardListHtml += "</tr>"
-		boardListHtml += "</table>";
+		if(${!empty member}){ //로그인한 경우만 등록 버튼 보이게 처리
+			boardListHtml += "<tr>"
+			boardListHtml += "<td colspan='5'>"
+			boardListHtml += "<button class='btn btn-primary btn-sm' onclick='newBoardWriteForm()'>글쓰기</button>"
+			boardListHtml += "</td>"
+			boardListHtml += "</tr>"
+		}
+			boardListHtml += "</table>";
 		
 		//게시판글쓰기 폼 block 처리
 		$("#newBoardListView").css("display", "block");

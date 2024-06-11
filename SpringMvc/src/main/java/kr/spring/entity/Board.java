@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class Board {
 	private int idx; //게시판 번호
+	private String memId; //유저 아이디
 	private String title; //게시판 제목
 	private String content; //게시판 내용
 	private String writer; //게시판 작성자

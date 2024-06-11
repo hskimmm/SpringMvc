@@ -202,6 +202,15 @@ public class MemberController {
 	}
 	
 	
+	/**
+	 * @apiNote 프로필 사진을 변경한다.
+	 * @author hskim
+	 * @since 2024-06-11
+	 * @param request
+	 * @param redirect
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/memberProfileUpdate.do")
 	public String memberProfileUpdate(HttpServletRequest request, RedirectAttributes redirect, HttpSession session) {
 		//2가지 실행 = upload 폴더에 이미지 저장/DB에 저장

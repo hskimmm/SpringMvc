@@ -4,7 +4,7 @@
 
 	<!-- 게시판리스트 -->
 	<select id="getNewBoardList" resultType="kr.spring.entity.Board">
-		SELECT idx, title, content, writer, date(indate) AS indate, count 
+		SELECT idx, memId, title, content, writer, date(indate) AS indate, count 
 		FROM myboard;
 	</select>
 	
@@ -19,12 +19,14 @@
 	<insert id="newBoardInsert" parameterType="kr.spring.entity.Board">
 		INSERT INTO myboard
 		(
+			memId,
 			title,
 			content,
 			writer
 		)
 		VALUES
 		(
+			#{memId},
 			#{title},
 			#{content},
 			#{writer}
