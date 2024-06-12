@@ -33,17 +33,29 @@
 		<c:choose>
 			<c:when test="${!empty member}">
 				<h3>
-					<c:if test="${member.memProfile ne null}"><img class="index-image-member img-circle" src="resources/upload/${member.memProfile}" alt="유저 이미지"></c:if>
+					<c:if test="${member.memProfile ne ''}"><img class="index-image-member img-circle" src="resources/upload/${member.memProfile}" alt="유저 이미지"></c:if>
 					${member.memName}님 방문을 환영합니다.
 				</h3>
 			</c:when>
 			<c:otherwise>
 				<h5>
-					<c:if test="${member.memProfile eq null}"><img class="index-image-basic img-circle" src="resources/images/urbanbrush-20210105113834473495.jpg" alt="기본 이미지"></c:if>
+					<c:if test="${member.memProfile eq ''}"><img class="index-image-basic img-circle" src="resources/images/urbanbrush-20210105113834473495.jpg" alt="기본 이미지"></c:if>
 					로그인하세요.	
 				</h5>
 			</c:otherwise>	
 		</c:choose>
+		<%-- <c:if test="${!empty member}">
+			<h3>
+				<c:if test="${member.memProfile ne ''}"><img class="index-image-member img-circle" src="resources/upload/${member.memProfile}" alt="유저 이미지"></c:if>
+				${member.memName}님 방문을 환영합니다.
+			</h3>
+		</c:if>
+		<c:if test="${empty member}">
+			<h5>
+				<c:if test="${member.memProfile eq null}"><img class="index-image-basic img-circle" src="resources/images/urbanbrush-20210105113834473495.jpg" alt="기본 이미지"></c:if>
+				로그인하세요.	
+			</h5>
+		</c:if> --%>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<img class="index-image-main" src="resources/images/pngtree-three-puppies-with-their-mouths-open-are-posing-for-a-photo-image_2902292.jpg"/>
