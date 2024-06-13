@@ -220,7 +220,7 @@ public class MemberController {
 		String savePath = request.getRealPath("resources/upload"); // 업로드될 실제 경로
 		
 		try {
-			//upload 폴더에 이미지 업로드
+			//1.upload 폴더에 이미지 업로드
 			multipartRequest = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8", new DefaultFileRenamePolicy());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -230,7 +230,7 @@ public class MemberController {
 			return "redirect:/memberProfileForm.do";
 		}
 		
-		//DB 테이블에 유저이미지 업데이트
+		//2.DB 테이블에 유저이미지 업데이트
 		String memId = multipartRequest.getParameter("memId");
 		String newProfile = "";
 		File file = multipartRequest.getFile("memProfile"); //업로드된 파일을 가져와서 file 객체에 넣어줌
