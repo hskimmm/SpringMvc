@@ -1,5 +1,7 @@
 package kr.spring.entity;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -12,4 +14,5 @@ public class Member {
 	private String memGender; //회원성별
 	private String memEmail; //회원이메일
 	private String memProfile; //회원파일
+	private List<MemberAuth> memberAuthList;
 }

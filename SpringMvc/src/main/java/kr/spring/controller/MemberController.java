@@ -1,11 +1,13 @@
 package kr.spring.controller;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import kr.spring.entity.Member;
+import kr.spring.entity.MemberAuth;
 import kr.spring.mapper.MemberMapper;
 
 @Controller
@@ -24,6 +27,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberMapper memberMapper;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	
 	/**
@@ -58,7 +64,7 @@ public class MemberController {
 			memPwd == null || memPwd.equals("") ||
 			memPwdOk == null || memPwdOk.equals("") ||
 			member.getMemName() == null || member.getMemName().equals("") ||
-			member.getMemAge() == 0 || 
+			member.getMemAge() == 0 || member.getMemberAuthList().size() == 0 ||
 			member.getMemGender() == null || member.getMemGender().equals("") ||
 			member.getMemEmail() == null || member.getMemEmail().equals("")) {
 			
@@ -77,13 +83,31 @@ public class MemberController {
 		
 		member.setMemProfile(""); // 회원가입시 파일을 넣지 않기 때문에 db에 null을 넣지 않기 위해 임시로 처리
 		
+		//비밀번호 암호화해서 member 객체에 넣음
+		String encyPassWord = passwordEncoder.encode(member.getMemPassword());
+		member.setMemPassword(encyPassWord);
+		
 		int resultType = memberMapper.memRegister(member);
 		if(resultType == 1) {
+			//권한 테이블에 회원 권한 추가
+			List<MemberAuth> list = member.getMemberAuthList();
+			
+			for(MemberAuth memberAuth : list) {
+				if(memberAuth.getAuth() != null) {
+					MemberAuth saveAuth = new MemberAuth();
+					saveAuth.setMemId(member.getMemId());
+					saveAuth.setAuth(memberAuth.getAuth());
+					
+					memberMapper.memberAuthInsert(saveAuth);
+				}
+			}
+			
 			redirect.addFlashAttribute("messageType", "success");
 			redirect.addFlashAttribute("message", "회원가입에 성공했습니다.");
 			
-			//회원가입 성공시 바로 로그인 처리
-			session.setAttribute("member", member);
+			//회원가입 성공시 세션 값 재설정
+			Member user = memberMapper.getMember(member.getMemId());
+			session.setAttribute("member", user);
 			
 			//회원가입 성공시 메인페이지로 이동 처리
 			return "redirect:/";

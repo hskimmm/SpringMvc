@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.spring.mapper.MemberMapper">
+	<resultMap type="kr.spring.entity.Member" id="memberMap">
+		<id property="memIdx" column="memIdx"/>
+		<result property="memId" column="memId"/>
+		<result property="memPassword" column="memPassword"/>
+		<result property="memName" column="memName"/>
+		<result property="memAge" column="memAge"/>
+		<result property="memGender" column="memGender"/>
+		<result property="memEmail" column="memEmail"/>
+		<result property="memProfile" column="memProfile"/>
+		<collection property="memberAuthList" resultMap="memberAuthMap"/>
+	</resultMap>
+	
+	<resultMap type="kr.spring.entity.MemberAuth" id="memberAuthMap">
+		<id property="no" column="no"/>
+		<result property="memId" column="memId"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	
+	
 	
 	<!-- 아이디 중복체크 -->
 	<select id="memberRegisterCheck" resultType="int" parameterType="String">
@@ -11,6 +30,7 @@
 	<insert id="memRegister" parameterType="kr.spring.entity.Member">
 		insert into member
 		(
+			memIdx,
 			memId,
 			memPassword,
 			memName,
@@ -21,6 +41,7 @@
 		)
 		values
 		(
+			(select IFNULL(max(memIdx)+1,1) from member mem),
 			#{memId},
 			#{memPassword},
 			#{memName},
@@ -51,10 +72,21 @@
 	</update>
 	
 	<!-- 특정 유저의 정보 가져오기 -->
-	<select id="getMember" parameterType="String" resultType="kr.spring.entity.Member">
-		select *
-		from member
-		where memId = #{memId}
+	<select id="getMember" resultMap="memberMap">
+		 select 
+		 	a.memIdx,
+			a.memId, 
+			a.memPassword, 
+			a.memName, 
+			a.memAge, 
+			a.memGender, 
+			a.memEmail, 
+			a.memProfile, 
+			b.auth
+		from member a
+		left outer join member_auth b
+		on a.memId = b.memId
+		where a.memId = #{memId}
 	</select>
 	
 	<!-- 프로필 사진 업로드 -->
@@ -63,4 +95,17 @@
 			memProfile = #{memProfile}
 		where memId = #{memId} 
 	</update>
+	
+	<insert id="memberAuthInsert" parameterType="kr.spring.entity.MemberAuth">
+		insert into member_auth
+		(
+			memId,
+			auth
+		)
+		values
+		(
+			#{memId},
+			#{auth}
+		)
+	</insert>
 </mapper>
