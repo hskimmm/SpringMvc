@@ -47,6 +47,7 @@
 			<div class="panel-heading">회원정보수정</div>
 			<div class="panel-body">
 				<form action="${contextPath}/memberUpdate.do" method="post">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					<input type="hidden" id="memId" name="memId" value="${member.memId}"/>
 					<input type="hidden" id="memPassword" name="memPassword" value="memPassword" value=""/>
 					<table class="table table-bordered">

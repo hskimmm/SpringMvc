@@ -58,6 +58,10 @@
 	</div>
 </body>
 <script type="text/javascript">
+	//Spring Security token 전역 변수로 생성
+	let csrfHeaderName = "${_csrf.headerName}";
+	let csrfTokenValue = "${_csrf.token}";
+
 	$(document).ready(function(){
 		loadNewBoardList();
 	});
@@ -146,13 +150,15 @@
 	function goNewBoardInsert(){
 		//폼 안의 데이터를 직렬화(한꺼번에 가지고 오는 방법)
 		let formData = $("#frm").serialize();
-		console.log(formData);
 		
 		//서버로 입력 받은 데이터를 넘김
 		$.ajax({
 			url : "board/new",
 			type : "post",
 			data : formData,
+			beforeSend : function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+			},
 			success : function(){
 				loadNewBoardList();
 				
@@ -182,6 +188,9 @@
 						url : "board/count/"+idx,
 						type : "put",
 						dataType : "json",
+						beforeSend : function(xhr){
+							xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+						},
 						success : function(data){
 							$("#newBoardCount"+idx).text(data.count);
 						},
@@ -225,6 +234,9 @@
 			type : "put",
 			contentType : "application/json;charset=utf-8", //data의 타입을 설정(JSON으로 서버로 넘기겠다는 뜻)
 			data : JSON.stringify({"title": title, "content" : content, "idx" : idx}), //JSON.stringify(데이터) -> 데이터가 JSON 형태로 변환됨
+			beforeSend : function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+			},
 			success : loadNewBoardList,
 			error : function(){
 				alert("error");
@@ -237,6 +249,9 @@
 		$.ajax({
 			url : "board/"+idx,
 			type : "delete",
+			beforeSend : function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+			},
 			success : loadNewBoardList,
 			error : function(){
 				alert("error");

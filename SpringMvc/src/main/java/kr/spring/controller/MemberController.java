@@ -176,8 +176,10 @@ public class MemberController {
 			redirect.addFlashAttribute("messageType", "success");
 			redirect.addFlashAttribute("message", "회원정보수정에 성공했습니다.");
 			
-			//회원정보수정시 세션의 수정된 값 다시 넣어준다.
-			session.setAttribute("member", member);
+			//회원정보수정시 세션의 수정된 값 다시 넣어준다.(수정 후의 변경 된 유저의 정보를 가져와서 세션에 넣어줌)
+			Member user = memberMapper.getMember(member.getMemId());
+			session.setAttribute("member", user);
+			
 			//회원가입 성공시 메인페이지로 이동 처리
 			return "redirect:/";
 		} else {

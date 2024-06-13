@@ -47,6 +47,7 @@
 			<div class="panel-heading">회원가입</div>
 			<div class="panel-body">
 				<form action="${contextPath}/memRegister.do" method="post">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					<input type="hidden" id="memPassword" name="memPassword" value=""/>
 					<table class="table table-bordered">
 						<tr>

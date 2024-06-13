@@ -19,7 +19,7 @@
 	<div class="panel-heading">프로필사진등록</div>
 	<div class="panel-body">
 		<!-- 폼으로 파일을 처리할떄에는 enctype="multipart/form-data" 타입을 지정해줘야한다.  -->
-		<form action="memberProfileUpdate.do" method="post" enctype="multipart/form-data"> 
+		<form action="memberProfileUpdate.do?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
 			<input type="hidden" id="memId" name="memId" value="${member.memId}"/>
 			<table class="table table-bordered">
 				<tr>

@@ -19,6 +19,7 @@
 	<div class="panel-heading">로그인화면</div>
 	<div class="panel-body">
 		<form action="memberLogin.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			<table class="table table-bordered">
 				<tr>
 					<td>아이디</td>
