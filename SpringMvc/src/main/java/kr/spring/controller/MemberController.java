@@ -176,7 +176,7 @@ public class MemberController {
 				memPwd == null || memPwd.equals("") ||
 				memPwdOk == null || memPwdOk.equals("") ||
 				member.getMemName() == null || member.getMemName().equals("") ||
-				member.getMemAge() == 0 || 
+				member.getMemAge() == 0 || member.getMemberAuthList().size() == 0 ||
 				member.getMemGender() == null || member.getMemGender().equals("") ||
 				member.getMemEmail() == null || member.getMemEmail().equals("")) {
 				
@@ -195,8 +195,27 @@ public class MemberController {
 			return "redirect:/memberUpdateForm.do";
 		}
 		
+		//사용자가 입력한 비밀번호를 암호화해서 다시 넣어줌
+		member.setMemPassword(passwordEncoder.encode(member.getMemPassword())); 
+		
 		int updateType = memberMapper.memberUpdate(member);
+		
 		if(updateType == 1) {
+			//기존 권한 삭제
+			memberMapper.memberAuthDelete(member.getMemId());
+			
+			//새로운 권한 추가
+			List<MemberAuth> list = member.getMemberAuthList();
+			for(MemberAuth memberAuth : list) {
+				if(memberAuth.getAuth() != null) {
+					MemberAuth saveMemberAuth = new MemberAuth();
+					saveMemberAuth.setMemId(member.getMemId());
+					saveMemberAuth.setAuth(memberAuth.getAuth());
+					memberMapper.memberAuthInsert(saveMemberAuth);
+				}
+			}
+			
+			
 			redirect.addFlashAttribute("messageType", "success");
 			redirect.addFlashAttribute("message", "회원정보수정에 성공했습니다.");
 			

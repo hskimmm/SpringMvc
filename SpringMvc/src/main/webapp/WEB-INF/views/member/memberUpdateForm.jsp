@@ -91,6 +91,14 @@
 							<td colspan="2"><input type="email" class="form-control" id="memEmail" name="memEmail" maxlength="20" placeholder="이메일을 입력하세요." value="${member.memEmail}"/></td>
 						</tr>
 						<tr>
+							<td>권한</td>
+							<td colspan="2">
+								<input type="checkbox" name="memberAuthList[0].auth" value="ROLE_USER"/> ROLE_USER
+								<input type="checkbox" name="memberAuthList[1].auth" value="ROLE_MANAGER"/> ROLE_MANAGER
+								<input type="checkbox" name="memberAuthList[2].auth" value="ROLE_ADMIN"/> ROLE_ADMIN
+							</td>
+						</tr>
+						<tr>
 							<td colspan="3">
 								<span class="spanMessage" id="pwdCheckMessage"></span>
 							</td>

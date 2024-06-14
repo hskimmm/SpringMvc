@@ -3,6 +3,7 @@ package kr.spring.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -15,6 +16,9 @@ public class LoginController {
 	
 	@Autowired
 	MemberMapper memberMapper;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	
 	/**
@@ -53,7 +57,8 @@ public class LoginController {
 		
 		Member loginMember = memberMapper.memberLogin(member);
 		
-		if(loginMember != null) {
+		//사용자가 입력한 비밀번호와 DB의 저장된 비밀번호가 서로 맞는지 확인(matches를 통해 입력한 비밀번호를 암호화 해서 비교)
+		if(loginMember != null && passwordEncoder.matches(member.getMemPassword(), loginMember.getMemPassword())) {
 			redirect.addFlashAttribute("messageType", "success");
 			redirect.addFlashAttribute("message", "로그인에 성공하였습니다.");
 			

@@ -34,7 +34,13 @@
 			<c:when test="${!empty member}">
 				<h3>
 					<c:if test="${!empty member.memProfile}"><img class="index-image-member img-circle" src="resources/upload/${member.memProfile}" alt="유저 이미지"></c:if>
-					${member.memName}님 방문을 환영합니다.
+					${member.memName}님(
+						<c:forEach var="memberAuth" items="${member.memberAuthList}">
+							<c:if test="${memberAuth.auth eq 'ROLE_USER'}">U</c:if>
+							<c:if test="${memberAuth.auth eq 'ROLE_MANAGER'}">M</c:if>
+							<c:if test="${memberAuth.auth eq 'ROLE_ADMIN'}">A</c:if>
+						</c:forEach>
+					) 방문을 환영합니다.
 				</h3>
 			</c:when>
 			<c:otherwise>
