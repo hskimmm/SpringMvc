@@ -16,5 +16,4 @@ public class NewBoardController {
 	public String newBoard() {
 		return "board/newBoard";
 	}
-	
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.spring.mapper.NoticeMapper">
+	<select id="NoticeList" resultType="kr.spring.entity.Board">
+		select 
+			idx,
+			title,
+			content,
+			writer,
+			date(indate) as indate,
+			count
+		from myboard
+	</select>
+	
+
+
+	<insert id="createNotice" parameterType="kr.spring.entity.Board">
+		insert into myboard
+		(
+			memId,
+			title,
+			content,
+			writer
+		)
+		values
+		(
+			#{memId},
+			#{title},
+			#{content},
+			#{writer}
+		)
+	</insert>
+</mapper> 

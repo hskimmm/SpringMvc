@@ -15,6 +15,7 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="${contextPath}">Home</a></li>
         <li><a href="boardMain.do">게시판</a></li>
+        <li><a href="noticeMain.do">공지사항</a></li>
         <!-- <li><a href="#">Page 2</a></li> -->
       </ul>
       <!-- 로그인 X -->
