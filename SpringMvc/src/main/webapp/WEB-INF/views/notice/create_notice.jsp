@@ -71,7 +71,7 @@
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>
-	<form action="#" id="frm" name="frm" method="post">
+	<form action="#" id="frm" name="frm" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="memId" value="${member.memId}"/>
 		<input type="hidden" name="memName" value="${member.memName}"/>
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -83,6 +83,10 @@
         <div class="form-group">
             <label for="content">내용</label>
             <textarea id="content" name="content"></textarea>
+        </div>
+        <div class="form-group">
+        	<label for="file">파일</label>
+        	<input type="file" name="file"/>
         </div>
         <div class="button-group">
             <button type="button" onclick="noticeCreateProcess()">생성하기</button>
@@ -138,7 +142,6 @@
 			error : function() {
 				alert(error);
 			}
-			
 		});
 	}
 	

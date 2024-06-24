@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.spring.mapper.NoticeMapper">
-	<select id="NoticeList" resultType="kr.spring.entity.Board">
+	<!-- 공지사항 리스트 조회 -->
+	<select id="noticeList" resultType="kr.spring.entity.Board">
 		select 
 			idx,
 			title,
@@ -12,8 +13,20 @@
 		from myboard
 	</select>
 	
-
-
+	<!-- 공지사항 상세 페이지 조회 -->
+	<select id="noticeDetail" parameterType="int" resultType="kr.spring.entity.Board">
+		select 
+			idx,
+			title,
+			content,
+			writer,
+			date(indate) as indate,
+			count
+		from myboard
+		where idx = #{idx}
+	</select>
+	
+	<!-- 공지사항 추가 -->
 	<insert id="createNotice" parameterType="kr.spring.entity.Board">
 		insert into myboard
 		(
@@ -30,4 +43,16 @@
 			#{writer}
 		)
 	</insert>
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="noticeDelete" parameterType="int">
+		delete from myboard where idx = #{idx}
+	</delete>
+	
+	<!-- 공지사항 조회수 증가 -->
+	<update id="noticeCount" parameterType="int">
+		update myboard set
+			count = count + 1
+		where idx = #{idx}
+	</update>
 </mapper> 

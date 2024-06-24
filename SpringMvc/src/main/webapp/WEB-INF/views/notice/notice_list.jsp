@@ -81,15 +81,17 @@
                 <tr>
                     <th>번호</th>
                     <th>제목</th>
+                    <th>작성자</th>
                     <th>작성일</th>
                     <th>조회수</th>
                 </tr>
             </thead>
             <tbody>
             	<c:forEach var="list" items="${noticeList}">
-	           		<tr onclick="viewNotice()">
+	           		<tr onclick="viewNotice(${list.idx})">
 		                <td>${list.idx}</td>
 		                <td>${list.title}</td>
+		                <td>${list.writer}</td>
 		                <td>${list.indate}</td>
 		                <td>${list.count}</td>
 		            </tr>
@@ -107,6 +109,11 @@
 		$("#createBtn").click(function(){
 			location.href = "createNoticeForm.do";
 		});
+	}
+	
+	//공지사항 상세 페이지 이동
+	function viewNotice(idx) {
+		location.href = "noticeDetail.do?idx="+idx;
 	}
 	
 	//init

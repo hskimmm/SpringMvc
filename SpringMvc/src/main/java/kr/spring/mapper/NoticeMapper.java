@@ -9,5 +9,8 @@ import kr.spring.entity.Board;
 @Mapper
 public interface NoticeMapper {
 	public int createNotice(Board notice);
-	public List<Board> NoticeList();
+	public List<Board> noticeList();
+	public Board noticeDetail(int idx);
+	public int noticeDelete(int idx);
+	public void noticeCount(int idx);
 }
