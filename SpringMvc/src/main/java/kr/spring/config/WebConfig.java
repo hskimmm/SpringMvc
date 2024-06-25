@@ -2,7 +2,10 @@ package kr.spring.config;
 
 import javax.servlet.Filter;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 
@@ -36,8 +39,11 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		return new Filter[] {encodingFilter};
 	}
 	
-	
-	
-	
-
+	//파일 업로드 설정
+	@Bean
+    public MultipartResolver multipartResolver() {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setMaxUploadSize(1024 * 1024 * 10); // 최대 업로드 사이즈 설정 (10MB)
+        return resolver;
+    }
 }

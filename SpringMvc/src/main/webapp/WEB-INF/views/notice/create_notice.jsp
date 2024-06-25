@@ -86,7 +86,7 @@
         </div>
         <div class="form-group">
         	<label for="file">파일</label>
-        	<input type="file" name="file"/>
+        	<input type="file" id="file" name="file"/>
         </div>
         <div class="button-group">
             <button type="button" onclick="noticeCreateProcess()">생성하기</button>
