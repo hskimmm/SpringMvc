@@ -64,12 +64,15 @@
         .create-notice-link a:hover {
             text-decoration: underline;
         }
-        /* 테이블 아래 오른쪽에 버튼을 배치하기 위한 스타일 */
         .create-button-container {
             position: relative;
-            float: right; /* 오른쪽으로 정렬 */
-            margin-top: 20px; /* 버튼과 테이블 사이 여백 조정 */
+            float: right;
+            margin-top: 20px;
         }
+        .update-text {
+       		color: gray;
+       		font-size: 10px;
+       	}
     </style>
 </head>
 <body>
@@ -90,7 +93,7 @@
             	<c:forEach var="list" items="${noticeList}">
 	           		<tr onclick="viewNotice(${list.idx})">
 		                <td>${list.idx}</td>
-		                <td>${list.title}</td>
+		                <td>${list.title}<c:if test="${list.updateDate != null}"><span class="update-text">(수정됨)</span></c:if></td>
 		                <td>${list.writer}</td>
 		                <td>${list.indate}</td>
 		                <td>${list.count}</td>
@@ -99,7 +102,7 @@
             </tbody>
         </table>
         <div class="create-button-container">
-			<a href="#" class="create-button" id="createBtn">공지사항 생성</a>
+			<c:if test="${memberAuth == 'ROLE_ADMIN'}"><a href="#" class="create-button" id="createBtn">공지사항 생성</a></c:if>
         </div>
     </div>
 </body>

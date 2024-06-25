@@ -3,6 +3,8 @@ package kr.spring.entity;
 import java.util.List;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
 public class Member {

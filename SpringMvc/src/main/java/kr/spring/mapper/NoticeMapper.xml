@@ -9,6 +9,7 @@
 			content,
 			writer,
 			date(indate) as indate,
+			date(updateDate) as updateDate,
 			count
 		from myboard
 	</select>
@@ -53,6 +54,15 @@
 	<update id="noticeCount" parameterType="int">
 		update myboard set
 			count = count + 1
+		where idx = #{idx}
+	</update>
+	
+	<!-- 공지사항 수정 -->
+	<update id="noticeUpdate" parameterType="kr.spring.entity.Board">
+		update myboard set
+			title = #{title},
+			content = #{content},
+			updateDate = now()
 		where idx = #{idx}
 	</update>
 </mapper> 

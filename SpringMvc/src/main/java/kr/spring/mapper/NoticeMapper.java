@@ -13,4 +13,5 @@ public interface NoticeMapper {
 	public Board noticeDetail(int idx);
 	public int noticeDelete(int idx);
 	public void noticeCount(int idx);
+	public int noticeUpdate(Board notice);
 }

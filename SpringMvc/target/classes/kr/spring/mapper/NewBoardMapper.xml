@@ -37,7 +37,8 @@
 	<update id="newBoardUpdate" parameterType="kr.spring.entity.Board">
 		UPDATE myboard SET
 		title = #{title},
-		content = #{content}
+		content = #{content},
+		updateDate = now()
 		WHERE idx = #{idx}
 	</update>
 	

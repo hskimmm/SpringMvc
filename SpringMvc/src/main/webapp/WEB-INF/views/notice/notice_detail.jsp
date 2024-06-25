@@ -54,13 +54,13 @@
         }
         textarea {
             width: 800px;
-            height: 500px; /* 초기 높이 설정 */
+            height: 500px;
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            resize: vertical; /* 수직으로만 resize 가능하도록 설정 */
+            resize: vertical;
         }
     </style>
 </head>
@@ -95,9 +95,11 @@
         	<td>${notice.count}</td>
         </tr>
     </table>
-    <div class="button-group">
-        <a href="#" onclick="noticeUpdate()">수정</a>
-        <a href="#" onclick="noticeDelete(${notice.idx})">삭제</a>
+   	<div class="button-group">	
+   		<c:if test="${noticeAuth == 'ROLE_ADMIN'}">
+   			<a href="#" onclick="noticeUpdate(${notice.idx})">수정</a>
+        	<a href="#" onclick="noticeDelete(${notice.idx})">삭제</a>
+   		</c:if>
         <a href="#" id="noticeList">목록</a>
     </div>
 </body>
@@ -110,6 +112,11 @@
 		$("#noticeList").click(function(){
 			location.href = "noticeMain.do";
 		});
+	}
+	
+	//수정 페이지 이동
+	function noticeUpdate(idx) {
+		location.href = "noticeUpdateForm.do?idx="+idx;
 	}
 	
 	//공지사항 삭제

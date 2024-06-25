@@ -11,5 +11,6 @@ public class Board {
 	private String content; //게시판 내용
 	private String writer; //게시판 작성자
 	private String indate; //게시판 작성일
+	private String updateDate; //게시판 수정일
 	private int count; //게시판 조회수
 }
