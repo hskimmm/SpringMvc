@@ -172,7 +172,7 @@
 		<dependency>
 		    <groupId>commons-fileupload</groupId>
 		    <artifactId>commons-fileupload</artifactId>
-		    <version>1.4</version> <!-- 최신 버전 확인하여 설정 -->
+		    <version>1.4</version>
 		</dependency>
 		
 		<!-- Spring Security -->
