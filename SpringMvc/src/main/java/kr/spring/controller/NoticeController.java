@@ -234,4 +234,9 @@ public class NoticeController {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping("/noticeFileDownload.do")
+	public @ResponseBody void noticeFileDownload(String filename) {
+		System.out.println("파일 다운로드 = " + filename);
+	}
 }

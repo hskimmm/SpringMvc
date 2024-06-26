@@ -90,7 +90,7 @@
         	<td>파일</td>
         	<td>
         		<c:if test="${!empty file}">
-        			<a href="#" id="download_btn">${file.filename}</a>
+        			<a href="noticeFileDownload.do?filename=${file.filename}">${file.filename}</a>
         		</c:if>
        		</td>
         </tr>
@@ -145,7 +145,7 @@
 			}
 		});
 	}
-	
+
 	//init
 	$(function(){
 		addButtonEvent();
