@@ -27,8 +27,8 @@
 		where idx = #{idx}
 	</select>
 	
-	<!-- 공지사항 추가 -->
-	<insert id="createNotice" parameterType="kr.spring.entity.Board">
+	<!-- 공지사항 추가 --><!-- useGeneratedKeys = 자동 생성된 키를 사용 한다는 의미, keyProperty = 자동 생성된 키를 매핑할 객체를 지정 -->
+	<insert id="createNotice" parameterType="kr.spring.entity.Board" useGeneratedKeys="true" keyProperty="idx">
 		insert into myboard
 		(
 			memId,
@@ -71,12 +71,14 @@
 		insert into file
 		(
 			filename,
-			filepath
+			filepath,
+			board_id
 		)
 		values
 		(
 			#{filename},
-			#{filepath}
+			#{filepath},
+			#{board_id}
 		)
 	</insert>
 </mapper> 

@@ -110,6 +110,7 @@ public class NoticeController {
 				if(fileExt.equals("jpg") || fileExt.equals("jpeg") || fileExt.equals("png") || fileExt.equals("gif")) {
 					File dir = new File(uploadDir);
 					
+					
 					if(!dir.exists()) {
 						dir.mkdirs();
 					}
@@ -123,6 +124,7 @@ public class NoticeController {
 					FileUpload fileUpload = new FileUpload();
 					fileUpload.setFilename(originalFileName);
 					fileUpload.setFilepath(filePath);
+					fileUpload.setBoard_id(notice.getIdx());
 					
 					noticeMapper.createFile(fileUpload);
 				} else {
