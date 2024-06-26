@@ -87,6 +87,14 @@
             <td><textarea readonly="readonly">${notice.content}</textarea></td>
         </tr>
         <tr>
+        	<td>파일</td>
+        	<td>
+        		<c:if test="${!empty file}">
+        			<a href="#" id="download_btn">${file.filename}</a>
+        		</c:if>
+       		</td>
+        </tr>
+        <tr>
             <td>작성일</td>
             <td>${notice.indate}</td>
         </tr>

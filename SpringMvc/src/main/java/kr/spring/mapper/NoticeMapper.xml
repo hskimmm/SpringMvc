@@ -23,7 +23,19 @@
 			writer,
 			date(indate) as indate,
 			count
-		from myboard
+		from myboard m
+		where idx = #{idx}
+	</select>
+	
+	<!-- 공지사항 상세 파일 가져오기 -->
+	<select id="fileDetail" parameterType="int" resultType="kr.spring.entity.FileUpload">
+		select 
+			f.filename,
+			f.filepath,
+			f.board_id 
+		from myboard m
+		inner join file f 
+		on m.idx = f.board_id 
 		where idx = #{idx}
 	</select>
 	

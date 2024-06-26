@@ -16,4 +16,5 @@ public interface NoticeMapper {
 	public void noticeCount(int idx);
 	public int noticeUpdate(Board notice);
 	public void createFile(FileUpload fileUpload);
+	public FileUpload fileDetail(int idx);
 }

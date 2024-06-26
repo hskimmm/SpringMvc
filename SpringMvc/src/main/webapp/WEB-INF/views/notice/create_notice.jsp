@@ -67,6 +67,24 @@
         .button-group button:hover, .button-group a:hover {
             background-color: #0056b3;
         }
+        .upload-container {
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.file-input {
+		    flex: 1; /* 파일 선택 input이 남은 공간을 모두 차지하도록 설정 */
+		    margin-right: 10px; /* 파일 선택 input과 업로드 취소 버튼 사이의 간격 설정 */
+		    padding: 5px; /* 선택 영역의 내부 여백 설정 */
+		}
+		
+		.cancel-button {
+		    background-color: transparent;
+		    color: red;
+		    border: none;
+		    font-size: 1.5em;
+		    cursor: pointer;
+		}
     </style>
 </head>
 <body>
@@ -87,6 +105,7 @@
         <div class="form-group">
         	<label for="file">파일</label>
         	<input type="file" id="file" name="file"/>
+       	 	<button type="button" id="cancelButton" class="cancel-button">✕</button>
         </div>
         <div class="button-group">
             <button type="button" onclick="noticeCreateProcess()">생성하기</button>
@@ -103,6 +122,11 @@
 	function addButtonEvent() {
 		$("#noticeList").click(function(){
 			location.href = "noticeMain.do";
+		});
+		
+		//파일 취소
+		$("#cancelButton").click(function(){
+			$("#file").val('');
 		});
 	}
 	

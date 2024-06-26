@@ -156,6 +156,10 @@ public class NoticeController {
 			//상세 페이지 조회
 			Board noticeDetail = noticeMapper.noticeDetail(idx);
 			model.addAttribute("notice", noticeDetail);
+			
+			//파일 가져오기
+			FileUpload file = noticeMapper.fileDetail(idx);
+			model.addAttribute("file", file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
