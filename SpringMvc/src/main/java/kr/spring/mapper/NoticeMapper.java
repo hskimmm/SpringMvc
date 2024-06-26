@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.spring.entity.Board;
+import kr.spring.entity.FileUpload;
 
 @Mapper
 public interface NoticeMapper {
@@ -14,4 +15,5 @@ public interface NoticeMapper {
 	public int noticeDelete(int idx);
 	public void noticeCount(int idx);
 	public int noticeUpdate(Board notice);
+	public void createFile(FileUpload fileUpload);
 }

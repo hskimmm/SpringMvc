@@ -71,7 +71,7 @@
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>
-	<form action="#" id="frm" name="frm" method="post" enctype="multipart/form-data">
+	<form action="#" id="frm" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="memId" value="${member.memId}"/>
 		<input type="hidden" name="memName" value="${member.memName}"/>
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -126,16 +126,22 @@
 	
 	//공지사항 생성
 	function noticeCreate() {
-		let frm = $("#frm").serialize();
+		var frm = new FormData();
+		frm.append("title", $("#title").val());
+		frm.append("content", $("#content").val());
+		frm.append("file", $("#file")[0].files[0]);
+		frm.append("memId", $("input[name='memId']").val());
 		
 		$.ajax({
 			url : "noticeCreate.do",
 			type : "post",
 			data : frm,
+			contentType: false,
+            processData: false,
 			beforeSend : function(xhr){
 				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
 			},
-			success : function() {
+			success : function(data) {
 				alert("공지사항이 등록되었습니다.");
 				location.href = "noticeMain.do";
 			},

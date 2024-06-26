@@ -39,11 +39,11 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		return new Filter[] {encodingFilter};
 	}
 	
-	//파일 업로드 설정
+	//파일업로드설정
 	@Bean
-    public MultipartResolver multipartResolver() {
+    public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        resolver.setMaxUploadSize(1024 * 1024 * 10);
+        resolver.setMaxUploadSize(5242880); // 5MB
         return resolver;
     }
 }

@@ -65,4 +65,18 @@
 			updateDate = now()
 		where idx = #{idx}
 	</update>
+	
+	<!-- 파일 저장 -->
+	<insert id="createFile" parameterType="kr.spring.entity.FileUpload">
+		insert into file
+		(
+			filename,
+			filepath
+		)
+		values
+		(
+			#{filename},
+			#{filepath}
+		)
+	</insert>
 </mapper> 
