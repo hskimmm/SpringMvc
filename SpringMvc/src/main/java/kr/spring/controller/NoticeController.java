@@ -2,9 +2,7 @@ package kr.spring.controller;
 
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -134,6 +132,7 @@ public class NoticeController {
 					fileUpload.setSavefilename(saveFileName);
 					fileUpload.setFilepath(filePath);
 					fileUpload.setBoard_id(notice.getIdx());
+					fileUpload.setDeleteYn("N");
 					
 					noticeMapper.createFile(fileUpload);
 				} else {
@@ -213,22 +212,27 @@ public class NoticeController {
 	 */
 	@RequestMapping("/noticeUpdateForm.do")
 	public String noticeUpdateForm(@RequestParam int idx, Model model) {
+		//공지사항 글 상세 조회
 		Board noticeDetail = noticeMapper.noticeDetail(idx);
 		model.addAttribute("notice", noticeDetail);
+		
+		//파일 조회
+		FileUpload fileUpload = noticeMapper.fileDetail(idx);
+		model.addAttribute("file", fileUpload);
 		
 		return "notice/notice_update";
 	}
 	
 	
 	/**
-	 * @apiNote 공지사항 수정
+	 * @apiNote 공지사항 수정 및 파일 수정, 삭제
 	 * @author hskim
-	 * @since 2024-06-25
+	 * @since 2024-06-27
 	 * @param notice
 	 * @param redirect
 	 */
 	@RequestMapping("/noticeUpdate.do")
-	public @ResponseBody void noticeUpdate(Board notice, RedirectAttributes redirect) {
+	public @ResponseBody void noticeUpdate(Board notice, RedirectAttributes redirect, MultipartFile file, String deleteYn) {
 		try {
 			int updateResult = noticeMapper.noticeUpdate(notice);
 			
@@ -239,11 +243,73 @@ public class NoticeController {
 				redirect.addFlashAttribute("messageType", "error");
 				redirect.addFlashAttribute("message", "공지사항 수정에 실패하였습니다.");
 			}
+			
+			FileUpload fileUpload = new FileUpload();
+			
+			//새로운 파일로 변경
+			if(file != null && !file.isEmpty()) {
+				//파일 지정 경로에 저장
+				String originalFileName = file.getOriginalFilename();
+				int index = originalFileName.lastIndexOf('.');
+				String fileExt = originalFileName.substring(index + 1).toLowerCase();
+				
+				if(fileExt.equals("jpg") || fileExt.equals("jpeg") || fileExt.equals("png") || fileExt.equals("gif")) {
+					File dir = new File(uploadDir);
+					
+					
+					if(!dir.exists()) {
+						dir.mkdirs();
+					}
+					
+					String filePath = dir + File.separator + System.currentTimeMillis() + "-" + originalFileName;
+					String saveFileName = filePath.substring("C:\\upload\\".length());
+					
+					File dest = new File(filePath);
+					file.transferTo(dest);
+					
+					//DB 저장
+					fileUpload.setFilename(originalFileName);
+					fileUpload.setSavefilename(saveFileName);
+					fileUpload.setFilepath(filePath);
+					fileUpload.setBoard_id(notice.getIdx());
+					fileUpload.setDeleteYn("N");
+					
+					noticeMapper.updateFile(fileUpload);
+				} else {
+					throw new Exception("이미지 파일만 업로드 가능합니다.");
+				}
+			} else {
+				//기존 파일 삭제
+				if(deleteYn.equals("Y")) {
+					fileUpload.setBoard_id(notice.getIdx());
+					fileUpload.setDeleteYn("Y");
+					int result = noticeMapper.deleteFile(fileUpload);
+					
+					if(result > 0) {
+						redirect.addFlashAttribute("meesageType", "success");
+						redirect.addFlashAttribute("meesage", "파일을 수정하였습니다.");
+					} else {
+						redirect.addFlashAttribute("meesageType", "error");
+						redirect.addFlashAttribute("message", "파일 수정중 에러가 발생하였습니다.");
+					}
+				}
+				
+				//기존 파일 변경 없을 시 그대로 유지
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	
+	/**
+	 * @apiNote 공지사항 파일 다운로드
+	 * @author hskim
+	 * @since 2024-06-27
+	 * @param filename
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping("/noticeFileDownload.do")
 	public @ResponseBody void noticeFileDownload(String filename, HttpServletRequest request, HttpServletResponse response) {
 		

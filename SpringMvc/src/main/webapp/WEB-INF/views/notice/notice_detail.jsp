@@ -90,7 +90,7 @@
         	<td>파일</td>
         	<td>
         		<c:if test="${!empty file}">
-        			<a href="noticeFileDownload.do?filename=${file.savefilename}">${file.filename}</a>
+        			<a href="noticeFileDownload.do?filename=${file.savefilename}"><c:if test="${file.deleteYn == 'N'}">${file.filename}</c:if></a>
         		</c:if>
        		</td>
         </tr>

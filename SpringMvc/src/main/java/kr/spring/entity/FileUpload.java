@@ -9,4 +9,5 @@ public class FileUpload {
 	private String savefilename;
 	private String filepath;
 	private int board_id;
+	private String deleteYn;
 }

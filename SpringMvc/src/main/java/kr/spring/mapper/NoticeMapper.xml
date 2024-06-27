@@ -33,7 +33,8 @@
 			f.filename,
 			f.savefilename,
 			f.filepath,
-			f.board_id 
+			f.board_id,
+			f.deleteYn
 		from myboard m
 		inner join file f 
 		on m.idx = f.board_id 
@@ -86,14 +87,33 @@
 			filename,
 			savefilename,
 			filepath,
-			board_id
+			board_id,
+			deleteYn
 		)
 		values
 		(
 			#{filename},
 			#{savefilename},
 			#{filepath},
-			#{board_id}
+			#{board_id},
+			#{deleteYn}
 		)
 	</insert>
+	
+	<!-- 파일 수정 -->
+	<update id="updateFile" parameterType="kr.spring.entity.FileUpload">
+		update file set
+			filename = #{filename},
+			savefilename = #{savefilename},
+			filepath = #{filepath},
+			deleteYn = #{deleteYn}
+		where board_id = #{board_id}
+	</update>
+		
+	<!-- 파일 삭제 -->
+	<delete id="deleteFile" parameterType="kr.spring.entity.FileUpload">
+		update file set
+			deleteYn = #{deleteYn}
+		where board_id = #{board_id}
+	</delete>
 </mapper> 

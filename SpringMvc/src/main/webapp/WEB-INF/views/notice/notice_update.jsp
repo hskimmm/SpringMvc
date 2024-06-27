@@ -48,11 +48,18 @@
         .button-group button:hover {
             background-color: #0056b3;
         }
+        .cancel-button {
+		    background-color: transparent;
+		    color: red;
+		    border: none;
+		    font-size: 1.5em;
+		    cursor: pointer;
+		}
     </style>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>
-    <form action="#" id="frm" method="post">
+    <form action="#" id="frm" method="post" enctype="multipart/form-data">
     	<input type="hidden" name="idx" value="${notice.idx}"/>
     	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     	<label for="idx">번호</label>
@@ -63,6 +70,10 @@
         <input type="text" id="writer" name="writer" value="${notice.writer}" readonly="readonly">
         <label for="content">내용</label>
         <textarea id="content" name="content" rows="8" required>${notice.content}</textarea>
+        <label for="file">파일</label>
+        <input type="file" id="file" name="file">
+        <span id="originalFileName"><c:if test="${file.deleteYn == 'N'}">${file.savefilename}</c:if></span>
+        <button type="button" id="cancelButton" class="cancel-button">✕</button>
         <div class="button-group">
             <button type="submit" onclick="noticeUpdate()">수정</button>
             <button type="button" onclick="window.history.back()">취소</button>
@@ -70,19 +81,49 @@
     </form>
 </body>
 <script type="text/javascript">
+	//전역 변수
+	let fileInput; // 새로운 파일 값
+	let deleteYn; // 파일 삭제여부
+	let csrfHeaderName = "${_csrf.headerName}";
+	let csrfTokenValue = "${_csrf.token}";
+	
 	//전체 버튼 이벤트 관리
 	function addButtonEvent() {
+		$("#file").on("change", function(){
+			fileInput = $("#file")[0].files[0]; // 새로운 파일 변수에 할당
+			$("#originalFileName").text(''); // 새로운 파일 추가 시 기존 파일 없애기
+		});
 		
+		$("#cancelButton").click(function(){
+			$("#originalFileName").text('');
+			deleteYn = 'Y'; //파일 삭제 시 Y 값 할당
+		});
 	}
 
 	//공지사항 수정
 	function noticeUpdate() {
-		let frm = $("#frm").serialize();
+		var formData = new FormData();
+		formData.append("idx", $("#idx").val());
+		formData.append("title", $("#title").val());
+		formData.append("content", $("#content").val());
+		formData.append("file", fileInput);
+		
+		//파일 삭제 여부 체크
+		if(deleteYn == 'Y') {
+			formData.append("deleteYn", "Y");
+		} else {
+			formData.append("deleteYn", "N");
+		}
 		
 		$.ajax({
 			url : "noticeUpdate.do",
 			type : "post",
-			data : frm,
+			data : formData,
+			contentType: false,
+            processData: false,
+            beforeSend : function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+			},
 			success : function() {
 				alert("공지사항을 수정하였습니다.");
 				location.href = "noticeMain.do";
