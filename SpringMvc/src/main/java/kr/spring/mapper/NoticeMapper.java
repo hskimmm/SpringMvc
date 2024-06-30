@@ -19,4 +19,5 @@ public interface NoticeMapper {
 	public FileUpload fileDetail(int idx);
 	public void updateFile(FileUpload fileUpload);
 	public int deleteFile(FileUpload fileUpload);
+	public int fileCountSelect(FileUpload fileUpload);
 }

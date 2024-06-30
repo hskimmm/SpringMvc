@@ -116,4 +116,11 @@
 			deleteYn = #{deleteYn}
 		where board_id = #{board_id}
 	</delete>
+	
+	<!-- 특정 공지사항 파일 유무 조회 -->
+	<select id="fileCountSelect" parameterType="kr.spring.entity.FileUpload" resultType="int">
+		select count(*)
+		from file
+		where board_id = #{board_id}
+	</select>
 </mapper> 

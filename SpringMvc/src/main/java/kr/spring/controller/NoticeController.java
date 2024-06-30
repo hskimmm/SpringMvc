@@ -274,7 +274,17 @@ public class NoticeController {
 					fileUpload.setBoard_id(notice.getIdx());
 					fileUpload.setDeleteYn("N");
 					
-					noticeMapper.updateFile(fileUpload);
+					//파일 테이블에 데이터가 생성 유무 확인
+					int fileCnt = noticeMapper.fileCountSelect(fileUpload);
+					
+					//File 테이블에 데이터 있을 시 Update
+					if(fileCnt > 0) {
+						noticeMapper.updateFile(fileUpload);
+					} else {
+						//File 테이블에 데이터 없을 시 Create
+						noticeMapper.createFile(fileUpload);
+					}
+					
 				} else {
 					throw new Exception("이미지 파일만 업로드 가능합니다.");
 				}
