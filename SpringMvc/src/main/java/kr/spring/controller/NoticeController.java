@@ -106,7 +106,7 @@ public class NoticeController {
 			}
 			
 			//파일 업로드
-			if(!file.isEmpty()) {
+			if(file != null && !file.isEmpty()) {
 				//파일 지정 경로에 저장
 				String originalFileName = file.getOriginalFilename();
 				int index = originalFileName.lastIndexOf('.');
